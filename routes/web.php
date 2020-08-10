@@ -18,23 +18,23 @@ Route::get('/', function () {
 });
 
 Route::group(array('prefix'=>'accounts'),function(){
-	Route::post('/create','AccountController@create');
-	Route::get('/read/{username}','AccountController@read');
-	Route::post('/delete','AccountController@delete');
-	Route::post('/update','AccountController@update');
-	Route::get('/search','AccountController@search');
-	Route::get('/followers','FollowerController@followers');
-	Route::get('/followings','FollowerController@followings');
-	Route::post('/follow','FollowerController@follow');
-	Route::post('/unfollow','FollowerController@unfollow');
+	Route::post('/create', 'AccountController@create');
+	Route::get('/read/{username}', 'AccountController@read');
+	Route::post('/delete', 'AccountController@delete');
+	Route::post('/update', 'AccountController@update');
+	Route::get('/search', 'AccountController@search');
+	Route::get('/followers', 'FollowerController@followers');
+	Route::get('/followings', 'FollowerController@followings');
+	Route::post('/follow', 'FollowerController@follow');
+	Route::post('/unfollow', 'FollowerController@unfollow');
 });
 
 Route::group(array('prefix'=>'post'),function(){
-	Route::post('/create','PostController@create');
+	Route::post('/create', 'PostController@create');
 	Route::get('/read/{title}','PostController@read');
-	Route::post('/delete','PostController@delete');
-	Route::post('/update','PostController@update');
-	Route::get('/showAllPost/{accountId}','PostController@showAllPost');
+	Route::post('/delete', 'PostController@delete');
+	Route::post('/update', 'PostController@update');
+	Route::get('/showAllPost/{accountId}', 'PostController@showAllPost');
 	Route::post('/like', 'LikeController@like');
 	Route::post('/unlike', 'LikeController@unlike');
 	Route::get('/mostPopular', 'LikeController@mostPopular');
@@ -44,4 +44,9 @@ Route::group(array('prefix'=>'post'),function(){
   Route::post('/save', 'SavePostController@save');
   Route::post('/unsave', 'SavePostController@unsave');
   Route::get('/searchSaved', 'SavePostController@search');
+});
+
+Route::group(array('prefix'=>'hashtag'),function(){
+  Route::post('/insert', 'HashtagController@insert');
+  Route::post('/remove', 'HashtagController@remove');
 });
