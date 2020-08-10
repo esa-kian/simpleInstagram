@@ -21,9 +21,24 @@ class Account extends Model
       return $this->hasMany('App\Like');
     }
 
+    public function comments()
+    {
+      return $this->hasMany('App\Comment');
+    }
+
+    public function likeComments()
+    {
+      return $this->hasMany('App\LikeComment');
+    }
+
+    public function savePosts()
+    {
+      return $this->hasMany('App\SavePost');
+    }
+
     public function followers()
     {
       return $this->belongsToMany('App\Follower');
     }
-    // protected $guarded = ['password',];
+
 }

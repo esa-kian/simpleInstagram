@@ -5,25 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 use Illuminate\Support\Facades\DB;
-// use App\Traits\UploadTrait;
-
 
 class PostController extends Controller
 {
-  // use UploadTrait;
-
   public function create(Request $request)
   {
       $post = new Post;
-      // Get image file
-      // $image = $request->photo;
-      // Define folder path
-      // $folder = '/uploads/images/';
-      // Make a file path where image will be stored [ folder path + file name + file extension]
-      // $filePath = $folder . $image->getClientOriginalExtension();
-      // Upload image
-      // $this->uploadOne($image, $folder, 'public');
-      // $post->photo = $filePath;
       $post->photo = $request->photo;
       $post->title = $request->title;
       $post->account_id = $request->accountId;

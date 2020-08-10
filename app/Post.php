@@ -21,8 +21,19 @@ class Post extends Model
     return $this->hasMany('App\Like');
   }
 
-  public function getImageAttribute()
+  public function comments()
   {
-     return $this->photo;
+    return $this->hasMany('App\Comment');
   }
+
+  public function savePosts()
+  {
+    return $this->hasMany('App\SavePost');
+  }
+
+  public function hashtags()
+  {
+    return $this->belongsToMany('App\Hashtag');
+  }
+
 }

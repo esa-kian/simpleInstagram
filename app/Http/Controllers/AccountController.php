@@ -10,10 +10,8 @@ class AccountController extends Controller
 {
     public function create(Request $request)
     {
-
         $account = new Account;
         $account->userName = $request->username;
-        // $account->password = $request->password;
         $account->save();
         return response()->json([
             'Created: ' => $request->username,

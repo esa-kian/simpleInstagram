@@ -38,4 +38,10 @@ Route::group(array('prefix'=>'post'),function(){
 	Route::post('/like', 'LikeController@like');
 	Route::post('/unlike', 'LikeController@unlike');
 	Route::get('/mostPopular', 'LikeController@mostPopular');
+  Route::post('/comment','CommentController@comment');
+  Route::post('/likeComment', 'LikeCommentController@like');
+  Route::post('/unlikeComment', 'LikeCommentController@unlike');
+  Route::post('/save', 'SavePostController@save');
+  Route::post('/unsave', 'SavePostController@unsave');
+  Route::get('/searchSaved', 'SavePostController@search');
 });
