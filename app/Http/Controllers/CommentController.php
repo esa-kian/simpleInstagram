@@ -10,14 +10,25 @@ class CommentController extends Controller
 {
     public function comment(Request $request)
     {
-      $comment = new Comment;
-      $comment->post_id = $request->postId;
-      $comment->account_id = $request->accountId;
-      $comment->comment = $request->comment;
-      $comment->save();
       $post = DB::table('posts')->select('title')->where('id', $request->postId)->get();
-      return response()->json([
-          'Your Comment Sent: ' => $post,
-      ]);
+
+      if(count($post) != 0)
+      {
+          $comment = new Comment;
+          $comment->post_id = $request->postId;
+          $comment->account_id = $request->accountId;
+          $comment->comment = $request->comment;
+          $comment->save();
+
+          return response()->json([
+              'Your Comment Sent: ' => $post,
+          ]);
+      }
+      else
+      {
+        return response()->json([
+            'The post is not available: ' => $post,
+        ]);
+      }
     }
 }

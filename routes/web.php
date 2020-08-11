@@ -38,15 +38,19 @@ Route::group(array('prefix'=>'post'),function(){
 	Route::post('/like', 'LikeController@like');
 	Route::post('/unlike', 'LikeController@unlike');
 	Route::get('/mostPopular', 'LikeController@mostPopular');
-  Route::post('/comment','CommentController@comment');
-  Route::post('/likeComment', 'LikeCommentController@like');
-  Route::post('/unlikeComment', 'LikeCommentController@unlike');
-  Route::post('/save', 'SavePostController@save');
-  Route::post('/unsave', 'SavePostController@unsave');
-  Route::get('/searchSaved', 'SavePostController@search');
+	Route::post('/comment','CommentController@comment');
+	Route::post('/likeComment', 'LikeCommentController@like');
+	Route::post('/unlikeComment', 'LikeCommentController@unlike');
+	Route::post('/save', 'SavePostController@save');
+	Route::post('/unsave', 'SavePostController@unsave');
+	Route::get('/searchSaved', 'SavePostController@search');
 });
 
 Route::group(array('prefix'=>'hashtag'),function(){
-  Route::post('/insert', 'HashtagController@insert');
-  Route::post('/remove', 'HashtagController@remove');
+	Route::post('/insert', 'HashtagController@insert');
+	Route::post('/remove', 'HashtagController@remove');
+	Route::get('/post/{postId}', 'HashtagController@post');
+	Route::get('/search', 'HashtagController@search');
+	Route::get('/trends', 'HashtagController@trends');
+	Route::post('/postDelete', 'HashtagController@postDelete');
 });

@@ -33,7 +33,7 @@ class Post extends Model
 
   public function hashtags()
   {
-    return $this->belongsToMany('App\Hashtag');
+    return $this->belongsToMany('App\Hashtag')->withTimestamps();
   }
 
 }

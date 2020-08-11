@@ -15,7 +15,7 @@ class CreateAccountsTable extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('userName')->unique();
+            $table->string('userName');
             $table->timestamps();
             $table->softDeletes();
         });
