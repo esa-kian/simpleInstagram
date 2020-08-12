@@ -10,11 +10,9 @@ use Illuminate\Support\Facades\DB;
 
 class HashtagController extends Controller
 {
-    public function insert(Request $request)
+    public function insert(Request $request, $id)
     {
-        $post = DB::table('posts')->select('title')
-                ->where('id', $request->postId)
-                ->whereNull('deleted_at')->get();
+        $post = Post::findOrFail($id)->toArray();
       
         if(count($post) != 0)
         {
@@ -27,12 +25,12 @@ class HashtagController extends Controller
             $hashtag->save();
           }
 
-          $hashtagPost = Post::find($request->postId);
+          $hashtagPost = Post::find($id);
           
           $hashtag2 = DB::table('hashtags')->where('tag', $request->tag)->get()->toArray();
           foreach($hashtag2 as $iter)
           {
-            $hashtagFind = DB::table('hashtag_post')->where('hashtag_id', $iter->id)->where('post_id', $request->postId)->get();
+            $hashtagFind = DB::table('hashtag_post')->where('hashtag_id', $iter->id)->where('post_id', $id)->get();
               
             if(count($hashtagFind) == 0)
             {
@@ -59,20 +57,18 @@ class HashtagController extends Controller
         }
     }
 
-    public function remove(Request $request)
+    public function remove(Request $request, $id)
     {
-      $post = DB::table('posts')->select('title')
-                ->where('id', $request->postId)
-                ->whereNull('deleted_at')->get();
+      $post = Post::findOrFail($id)->toArray();
                 
       if(count($post) != 0)
       {                
-        $hashtagPost = Post::find($request->postId);
-        $postHasHashtag = DB::table('hashtag_post')->where('post_id', $request->postId)->where('hashtag_id', $request->tagId)->get();
+        $hashtagPost = Post::find($id);
+        $postHasHashtag = DB::table('hashtag_post')->where('post_id', $id)->where('hashtag_id', $request->tag_id)->get();
         
         if(count($postHasHashtag) != 0)
         {
-          $hashtagPost->hashtags()->detach($request->tagId);
+          $hashtagPost->hashtags()->detach($request->tag_id);
 
           return response()->json([
               'Removed: ' => $postHasHashtag,
@@ -93,42 +89,36 @@ class HashtagController extends Controller
       }
     }
 
-    public function post($postId)
+    public function show($id)
     {
-      $post = Post::find($postId);
+      $post = Post::find($id);
       $hashtags = $post->hashtags()->get();
 
-      return response()->json([
-          'Hashtags: ' => $hashtags,
-      ]);
+      return $hashtags;
     }
 
     public function search(Request $request)
     {
       $posts = Hashtag::with('posts')->where('tag', 'like', '%' . $request->tag . '%')->get();
 
-      return response()->json([
-          'Posts: ' => $posts,
-      ]);
+      return $posts;
     }
 
     public function trends()
     {
-      $hashtag = DB::table('hashtag_post')
+      $hashtags = DB::table('hashtag_post')
                       ->where('created_at', '>=', now()->subDays(1)->toDateTimeString())
                       ->groupBy('hashtag_id')
                       ->having('hashtag_id', '>', 0)
                       ->orderBy(DB::raw('count(hashtag_id)'), 'DESC')
                       ->take(3)->get()->toArray();
 
-      return response()->json([
-          'Treds: ' => $hashtag,
-      ]);
+      return $hashtags;
     }
 
     public function postDelete(Request $request)
     {
-      $hashtags = Hashtag::find($request->tagId);
+      $hashtags = Hashtag::find($request->tag_id);
       $posts = $hashtags->posts()->get();
       $hashtags->posts()->delete();
 

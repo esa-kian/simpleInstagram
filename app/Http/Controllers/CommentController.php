@@ -8,15 +8,15 @@ use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller
 {
-    public function comment(Request $request)
+    public function comment(Request $request, $id)
     {
-      $post = DB::table('posts')->select('title')->where('id', $request->postId)->get();
+      $post = DB::table('posts')->select('title')->where('id', $id)->get();
 
       if(count($post) != 0)
       {
           $comment = new Comment;
-          $comment->post_id = $request->postId;
-          $comment->account_id = $request->accountId;
+          $comment->post_id = $id;
+          $comment->account_id = $request->account_id;
           $comment->comment = $request->comment;
           $comment->save();
 
